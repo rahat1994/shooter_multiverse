@@ -28,7 +28,8 @@ class BGM {
   }
 
   static Future add(String filename) async {
-    AudioCache newTrack = AudioCache(prefix: 'audio/', fixedPlayer: AudioPlayer());
+    AudioCache newTrack =
+        AudioCache(prefix: 'audio/', fixedPlayer: AudioPlayer());
     await newTrack.load(filename);
     await newTrack.fixedPlayer.setReleaseMode(ReleaseMode.LOOP);
     _tracks.add(newTrack);

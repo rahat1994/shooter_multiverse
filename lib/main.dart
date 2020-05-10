@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shootermultiverse/game/game.dart';
 import 'game/sound_manager.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -46,69 +47,4 @@ void main() async {
   TapGestureRecognizer tapper = TapGestureRecognizer();
   tapper.onTap = game.onTap;
   flameUtil.addGestureRecognizer(tapper);
-
-}
-
-class GameWrapper extends StatefulWidget {
-
-  final Util flameUtil;
-
-  GameWrapper(this.flameUtil);
-  @override
-  _GameWrapperState createState() => _GameWrapperState(flameUtil);
-
-}
-
-class _GameWrapperState extends State<GameWrapper> {
-  bool splashGone = true;
-  ShooterGame game;
-  final Util flameUtil;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  _GameWrapperState(this.flameUtil){
-    game = ShooterGame();
-
-    VerticalDragGestureRecognizer verticalDrag = VerticalDragGestureRecognizer();
-    verticalDrag.onUpdate = game.onDrag;
-    flameUtil.addGestureRecognizer(verticalDrag);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return splashGone
-        ? _buildGame(context)
-        : FlameSplashScreen(
-          onFinish: (context) {
-            setState(() {
-              splashGone = true;
-            });
-          },
-          theme: FlameSplashTheme.white);
-  }
-
-  Widget _buildGame(BuildContext context){
-
-    if(game == null){
-      return const Center(
-        child: Text('Loading'),
-      );
-    }
-
-    return Container(
-      color: Colors.white,
-      constraints: const BoxConstraints.expand(),
-      child: Container(
-        child: game.widget,
-      ),
-    );
-  }
-
-  VerticalDragGestureRecognizer verticalDrag = VerticalDragGestureRecognizer();
-
-
-  TapGestureRecognizer tapper = TapGestureRecognizer();
 }
